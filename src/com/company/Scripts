@@ -1,0 +1,43 @@
+create table route (
+id integer not null unique primary key,
+beginning varchar not null,
+finish varchar not null
+);
+
+create table bus (
+num varchar not null unique primary key,
+fk_route_of_bus integer references route(id)
+);
+
+create table driver (
+full_name varchar not null primary key
+);
+
+create table journal (
+fk_driver_name varchar references driver(full_name),
+fk_bus_num varchar references bus(num),
+time_entry timestamp unique not null
+);
+
+insert into route (id, beginning, finish)
+values(105, '12 микрорайон', 'Лебединовка'), (212, '12 микрорайон', 'Военный институт'),
+(204, 'Асанбай', 'Ак-Ордо'), (199, 'Кок-Джар', 'ул.Гоголя');
+
+insert into bus (num, fk_route_of_bus)
+values('01KG777AC', 212), ('01KG245AAD', 105),
+('B3946AT', 199), ('04KG188AAF', 204);
+
+insert into driver (full_name)
+values('Ramankulov Aziret Nurbekovich'), ('Serikov Astan Kairatovich'), ('Yrymbekov Ulan Yrymbekovich'),
+('Totoev Almanbet Baisubekovich');
+
+insert into journal (fk_driver_name, fk_bus_num, time_entry)
+values ('Ramankulov Aziret Nurbekovich', '01KG245AAD', '2020-07-25 13:31'),
+('Serikov Astan Kairatovich', '04KG188AAF', '2020-07-15 14:13'),
+('Yrymbekov Ulan Yrymbekovich', 'B3946AT', '2020-07-07 10:57'),
+('Totoev Almanbet Baisubekovich', '01KG777AC', '2020-07-18 18:42'),
+('Yrymbekov Ulan Yrymbekovich', '01KG777AC', '2020-07-19 09:05');
+
+select * from journal j
+join bus b on j.fk_bus_num = b.num
+join route r on b.fk_route_of_bus = r.id;
