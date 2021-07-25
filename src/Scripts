@@ -1,0 +1,6 @@
+create table news(
+	id serial,
+	head varchar not null,
+	text_of_news varchar not null,
+	publication_time timestamp not null
+);
