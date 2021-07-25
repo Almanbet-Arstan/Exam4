@@ -1,10 +1,12 @@
 package com.company.model;
 
+import java.sql.Timestamp;
+
 public class News {
     private Integer id;
     private String head;
     private String text_of_news;
-    private String publicationTime;
+    private Timestamp publicationTime;
 
     public Integer getId() {
         return id;
@@ -30,11 +32,21 @@ public class News {
         this.text_of_news = text_of_news;
     }
 
-    public String getPublicationTime() {
+    public Timestamp getPublicationTime() {
         return publicationTime;
     }
 
-    public void setPublicationTime(String publicationTime) {
+    public void setPublicationTime(Timestamp publicationTime) {
         this.publicationTime = publicationTime;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", head='" + head + '\'' +
+                ", text_of_news='" + text_of_news + '\'' +
+                ", publicationTime=" + publicationTime +
+                '}';
     }
 }

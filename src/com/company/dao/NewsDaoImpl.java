@@ -3,6 +3,7 @@ package com.company.dao;
 import com.company.model.News;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -10,13 +11,13 @@ import java.util.List;
 
 public class NewsDaoImpl extends BaseDao implements NewsDao{
     @Override
-    public void InsertIntoNews(String head, String text_of_news, String publicationTime) {
+    public void InsertIntoNews(String head, String text_of_news, Timestamp publicationTime) {
         try(Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement("insert into news (head, text_of_news, publication_time)\n" +
                     "values (?, ?, ?);")){
             statement.setString(1, head);
             statement.setString(2, text_of_news);
-            statement.setString(3, publicationTime);
+            statement.setTimestamp(3, publicationTime);
             statement.executeUpdate();
             System.out.println("Данные успешно внесены в базу данных");
         }catch (Exception e){
@@ -35,10 +36,10 @@ public class NewsDaoImpl extends BaseDao implements NewsDao{
                 news.setId(resultSet.getInt("id"));
                 news.setHead(resultSet.getString("head"));
                 news.setText_of_news(resultSet.getString("text_of_news"));
-                news.setPublicationTime(resultSet.getString("publication_time"));
+                news.setPublicationTime(resultSet.getTimestamp("publication_time"));
                 newsAll.add(news);
             }
-            System.err.println("Получение данных прошло успешно");
+            System.out.println("Получение данных прошло успешно");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -48,10 +49,10 @@ public class NewsDaoImpl extends BaseDao implements NewsDao{
     @Override
     public void DeleteNewsById(int id) {
         try(Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement("delete * from news where id = ?;")){
+            PreparedStatement statement = connection.prepareStatement("delete from news where id = ?;")){
             statement.setInt(1, id);
             statement.executeUpdate();
-            System.err.println("Данные успешно удалены");
+            System.out.println("Данные успешно удалены");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class NewsDaoImpl extends BaseDao implements NewsDao{
             statement.setString(3, text_of_news);
             statement.setInt(4, id);
             statement.executeUpdate();
-            System.err.println("Изменение текста в таблице произошло успешно");
+            System.out.println("Изменение текста в таблице произошло успешно");
         }catch (Exception e){
             e.printStackTrace();
         }
